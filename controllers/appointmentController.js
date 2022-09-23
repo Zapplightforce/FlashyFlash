@@ -44,7 +44,7 @@ export async function setAppointment(req, res) {
         message: `📅 Appointment for ${appointment.pet} is made on ${appointment.date} at ${appointment.timeslot}`,
       });
     } else {
-      res.status(422);
+      res.status(500);
       res.json({
         title: 'cannot add appointment',
         message: `Unknown causes`,

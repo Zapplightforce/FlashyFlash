@@ -2,12 +2,15 @@ import * as dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 dotenv.config({ path: 'variables.env' });
 
+//TODO: to improve this code, you might consider working with models as well. A model is then a representation of a resource.
+//TODO: write some generic select, update, delete code to improve the code. However, do not write your own framework ☺️
+
 console.log('url', process.env.SUPABASE_URL);
 
-// credentiials in a
+// my supabase client
 const supabase = createClient(
-  'https://bswwausvcnqjvailohde.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzd3dhdXN2Y25xanZhaWxvaGRlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY2Mjk4MTc0MiwiZXhwIjoxOTc4NTU3NzQyfQ.mxpfiS3t_-EaWKW1AQpJpJ_eRM4N7GHQyn6YeJ_9DMs'
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
 /**
@@ -23,6 +26,10 @@ export async function getAppointmentData(id) {
   else return data;
 }
 
+/**
+ * function to read all the appointments
+ * @returns an array of appointments
+ */
 export async function getAppointmentsData() {
   const { data, error } = await supabase.from('appointments').select('*');
   if (error) console.log('query error', error);
@@ -33,7 +40,7 @@ export async function getAppointmentsData() {
  * Function to get the timeslot number
  * 
  * @param {*} timeSlotNumber the id of a timeSlot
- * @returns 
+ * @returns an specific timeslot
  */
 async function getTimeslot(timeSlotNumber){
   console.log('👀 for id:', timeSlotNumber);
@@ -43,7 +50,7 @@ async function getTimeslot(timeSlotNumber){
 }
 
 /**
- * 
+ * Function to write a specific appointment
  * @param {*} appointment 
  * @returns 
  */
